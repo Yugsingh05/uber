@@ -8,6 +8,7 @@ import { Button, Text, View } from 'react-native'
   <View>
     <Button title='Login' onPress={() => router.push('/sign-up')} />
     <Button title='Sign in' onPress={() => router.push('/sign-in')}/>
+    <Button title='HomeScreen' onPress={() => router.push('/HomeScreen')}/>
   </View>
   )
 }
