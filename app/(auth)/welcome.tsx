@@ -1,3 +1,4 @@
+import CustomButton from "@/components/CustomButton";
 import { onboarding } from "@/constants";
 import { Redirect, useRouter } from "expo-router";
 import React, { useRef, useState } from "react";
@@ -9,6 +10,7 @@ const Welcome = () => {
   const router = useRouter();
   const swiperRef = useRef<Swiper>(null);
   const [ActiveIndex,setActiveIndex] = useState(0);
+  const isLastIndex = ActiveIndex === onboarding.length - 1;
 
   return (
     <SafeAreaView className="flex h-full items-center justify-between bg-white">
@@ -46,6 +48,11 @@ const Welcome = () => {
   )})}
 
       </Swiper>
+
+      <CustomButton title={isLastIndex ? "Get Started" : "Next"} 
+      onPress={() => isLastIndex ? router.replace("/sign-in") : swiperRef.current?.scrollBy(1)}
+      className="w-11/12 mt-10"
+      />
     </SafeAreaView>
   );
 };
