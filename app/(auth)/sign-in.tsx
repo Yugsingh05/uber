@@ -39,8 +39,8 @@ const SignIn = () => {
       await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
       setPendingVerification(true);
     } catch (err) {
-      Alert.alert("Error", JSON.stringify(err, null, 2));
-      Alert.alert("Error", JSON.stringify(err, null, 2));
+     console.log(JSON.stringify(err, null, 2));
+           Alert.alert("Error", err.errors[0].longMessage);
     }
   };
 
@@ -65,8 +65,8 @@ const SignIn = () => {
         console.error(JSON.stringify(signUpAttempt));
       }
     } catch (err) {
-      console.error(JSON.stringify(err));
-      Alert.alert("Error", JSON.stringify(err));
+      console.log(JSON.stringify(err, null, 2));
+            Alert.alert("Error", err.errors[0].longMessage);
       setPendingVerification(false);
     }
   };
@@ -81,7 +81,8 @@ const SignIn = () => {
      setIsSuccess(false);
      router.push("/(root)/(tabs)/HomeScreen")
    } catch (error) {
-    console.error(JSON.stringify(error));
+  console.log(JSON.stringify(err, null, 2));
+        Alert.alert("Error", err.errors[0].longMessage);
    }
   }
 
