@@ -2,19 +2,42 @@ import CustomButton from "@/components/CustomButton";
 import InputField from "@/components/InputField";
 import OAuth from "@/components/OAuth";
 import { icons, images } from "@/constants";
-import { Link } from "expo-router";
-import React, { useState } from "react";
-import { Image, ScrollView, Text, View } from "react-native";
+import { useSignIn } from "@clerk/clerk-expo";
+import { Link, useRouter } from "expo-router";
+import React, { useCallback, useState } from "react";
+import { Alert, Image, ScrollView, Text, View } from "react-native";
 
 const SignUp = () => {
+
+  const {signIn, isLoaded,setActive} = useSignIn();
+  const router = useRouter();
 
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
-  const handleSignUn = () => {
-    console.log(email, password);
-  }
 
+  const onSignInPress = useCallback(async () => {
+    if (!isLoaded) return;
+
+    try {
+      const signInAttempt = await signIn.create({
+        identifier: email,
+        password,
+      });
+
+      if (signInAttempt.status === "complete") {
+        await setActive({ session: signInAttempt.createdSessionId });
+        router.replace("/(root)/(tabs)/HomeScreen");
+      } else {
+       
+        console.log(JSON.stringify(signInAttempt, null, 2));
+        Alert.alert("Error", "Log in failed. Please try again.");
+      }
+    } catch (err: any) {
+      console.log(JSON.stringify(err, null, 2));
+      Alert.alert("Error", err.errors[0].longMessage);
+    }
+  }, [isLoaded]);
   return (
     <ScrollView className="flex-1 bg-white">
       <View className="flex-1 bg-white">
@@ -45,7 +68,7 @@ const SignUp = () => {
             onChangeText={setPassword}
           />
 
-          <CustomButton title="Login" onPress={handleSignUn} className="mt-6"/>
+          <CustomButton title="Login" onPress={onSignInPress} className="mt-6"/>
 
           <OAuth/>
 
