@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "ubser-learn",
-    "slug": "ubser-learn",
+    "name": "uber-learn",
+    "slug": "uber-learn",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
